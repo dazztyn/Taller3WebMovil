@@ -1,5 +1,6 @@
 import './globals.css';
-import Navbar from './components/layout/Navbar'; // Importamos tu componente
+import Navbar from './components/layout/Navbar';
+import StoreProvider from './StoreProvider';
 
 export const metadata = {
   title: 'DataMobile Dashboard',
@@ -14,18 +15,15 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className="bg-slate-100 min-h-screen flex flex-col">
-        {/* Tu Navbar fija arriba */}
-        <Navbar />
-        
-        {/* El contenido de la página cambiará aquí abajo */}
-        <main className="flex-grow container mx-auto p-4 sm:p-6 lg:p-8">
-          {children}
-        </main>
-
-        {/* Un Footer sencillo */}
-        <footer className="bg-[#003366] text-gray-300 text-center py-4 text-sm">
+        <StoreProvider>
+          <Navbar />
+          <main className="flex-grow container mx-auto p-4 sm:p-6 lg:p-8">
+            {children}
+          </main>
+          <footer className="bg-[#003366] text-gray-300 text-center py-4 text-sm">
             © 2025 DataMobile - Taller 3 Web Móvil
-        </footer>
+          </footer>
+        </StoreProvider>
       </body>
     </html>
   );
