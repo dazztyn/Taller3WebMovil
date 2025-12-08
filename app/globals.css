@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  /* Forzamos el fondo al Gris Claro (Slate-100) y texto oscuro */
+  --background: #f1f5f9;
   --foreground: #171717;
 }
 
@@ -12,12 +13,10 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* ¡IMPORTANTE!
+   He eliminado el bloque @media (prefers-color-scheme: dark)
+   para evitar que la pantalla se ponga negra automáticamente.
+*/
 
 body {
   background: var(--background);
