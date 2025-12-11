@@ -66,9 +66,14 @@ export const dataSlice = createSlice({
         
         return matchesSearch && matchesCategory && matchesSucursal && matchesPago;
       });
+    },
+    
+    addVenta: (state, action: PayloadAction<Venta>) => {
+      state.items.unshift(action.payload);
+      state.filteredItems.unshift(action.payload);
     }
   },
 });
 
-export const { fetchDataStart, fetchDataSuccess, fetchDataFailure, filterData } = dataSlice.actions;
+export const { fetchDataStart, fetchDataSuccess, fetchDataFailure, filterData, addVenta } = dataSlice.actions;
 export default dataSlice.reducer;

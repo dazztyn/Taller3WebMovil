@@ -19,6 +19,9 @@ import { fetchDataSuccess } from '../lib/redux/slices/dataSlice';
 import { setSearchTerm, setCategory } from '../lib/redux/slices/filterSlice';
 import { useVentasLogic } from '../lib/redux/hooks/useVentasLogic';
 
+//IMPORT PARA AGREGAR VENTA
+import NewSaleModal from './components/layout/NewSaleModal';
+
 export default function DashboardPage() {
   
   const dispatch = useDispatch();
@@ -70,6 +73,9 @@ export default function DashboardPage() {
           <p className="text-slate-500">Resumen de rendimiento en tiempo real</p>
         </div>
         <div className="flex gap-2">
+            {/* BOTÓN DE NUEVA VENTA */}
+            <NewSaleModal />
+            
             {/* BOTÓN DE PRUEBA INTEGRADO AQUÍ */}
             <button 
                 onClick={cargarDatosDePrueba}
@@ -80,6 +86,7 @@ export default function DashboardPage() {
             <button className={`${ucnAccentBtn} text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm`}>
                 Descargar Reporte
             </button>
+            
         </div>
       </div>
 
