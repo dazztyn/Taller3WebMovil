@@ -1,4 +1,13 @@
 'use client'
+//Imports para los graficos
+import { CategoryPieChart } from './components/charts/CategoryPieChart';
+import { SalesLineChart } from './components/charts/SalesLineChart';
+import './components/charts/ChartConfig';
+import { BarChart } from './components/charts/BarChart';
+import { KpiCard } from './components/dashboard/KpiCard';
+import { PaymentDoughnutChart } from './components/charts/PaymentDoughnutChart';
+import { StatusPolarChart } from './components/charts/StatusPolarChart';
+//Fin de imports para los graficos
 
 import { useMemo } from 'react';
 import Card from './components/ui/Card';
@@ -107,45 +116,77 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* SECCIÓN 1: KPIs (Tarjetas Superiores - AHORA CON DATOS REALES) */}
+      {/* SECCIÓN 1: KPIs (Tarjetas Superiores) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card>
-          <p className="text-sm text-slate-500">Ventas Totales</p>
-          <p className="text-2xl font-bold text-slate-800 mt-1">
-            ${kpis.totalVentas.toLocaleString('es-CL')}
-          </p>
-        </Card>
-        <Card>
-          <p className="text-sm text-slate-500">Transacciones</p>
-          <p className="text-2xl font-bold text-slate-800 mt-1">
-            {kpis.transacciones}
-          </p>
-        </Card>
-        <Card>
-          <p className="text-sm text-slate-500">Ticket Promedio</p>
-          <p className="text-2xl font-bold text-slate-800 mt-1">
-             ${Math.round(kpis.ticketPromedio).toLocaleString('es-CL')}
-          </p>
-        </Card>
-        <Card>
-          <p className="text-sm text-slate-500">Sucursal Top</p>
-          <p className="text-2xl font-bold text-green-600 mt-1">
-            {kpis.topSucursal}
-          </p>
-        </Card>
+        
+        {/* Reemplazamos el <Card> genérico por tu <KpiCard> */}
+        
+        <KpiCard 
+          title="Ventas Totales" 
+          value={`$${kpis.totalVentas.toLocaleString('es-CL')}`} 
+          trend="+15% vs mes ant." // (Dato simulado para que se vea bonito)
+        />
+
+        <KpiCard 
+          title="Transacciones" 
+          value={kpis.transacciones} 
+          trend="Estable"
+        />
+
+        <KpiCard 
+          title="Ticket Promedio" 
+          value={`$${Math.round(kpis.ticketPromedio).toLocaleString('es-CL')}`} 
+        />
+
+        <KpiCard 
+          title="Sucursal Top" 
+          value={kpis.topSucursal} 
+          trend="Liderando"
+        />
       </div>
 
       {/* SECCIÓN 2: Gráficos Principales */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card title="Evolución de Ventas" className="lg:col-span-2 min-h-[300px]">
-          <div className="h-64 flex items-center justify-center bg-slate-50 rounded border border-dashed border-slate-300 text-slate-400">
-            Aquí irá el Gráfico de Líneas (Visualizador)
+        
+        {/* GRÁFICO 1: Ocupa 2 columnas (ancho) */}
+        <Card title="Ventas por Sucursal" className="lg:col-span-2 min-h-[300px]">
+          <div className="h-80 w-full">
+             <BarChart items={filteredItems} /> 
           </div>
         </Card>
 
+        {/* GRÁFICO DE LÍNEAS */}
+        <Card title="Evolución de Ventas" className="lg:col-span-2 min-h-[300px]">
+          <div className="h-80 w-full">
+             {/* PASAMOS LOS DATOS */}
+             <SalesLineChart items={filteredItems} /> 
+          </div>
+        </Card>
+
+        {/* GRÁFICO DE TORTA */}
         <Card title="Ventas por Categoría" className="min-h-[300px]">
-           <div className="h-64 flex items-center justify-center bg-slate-50 rounded border border-dashed border-slate-300 text-slate-400">
-            Aquí irá el Gráfico de Torta
+           <div className="h-80 w-full">
+             {/* PASAMOS LOS DATOS */}
+             <CategoryPieChart items={filteredItems} />
+          </div>
+        </Card>
+      </div>
+      
+
+      {/* SECCIÓN 2.5: Gráficos Secundarios (Dona y Polar) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        {/* GRÁFICO de Dona */}
+        <Card title="Ingresos por Método de Pago" className="min-h-[300px]">
+          <div className="h-72 w-full">
+             <PaymentDoughnutChart items={filteredItems} />
+          </div>
+        </Card>
+
+        {/* GRÁFICO Polar */}
+        <Card title="Estado de los Pedidos" className="min-h-[300px]">
+           <div className="h-72 w-full">
+             <StatusPolarChart items={filteredItems} />
           </div>
         </Card>
       </div>
