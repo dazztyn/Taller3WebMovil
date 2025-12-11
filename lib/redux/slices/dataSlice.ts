@@ -88,9 +88,16 @@ export const dataSlice = createSlice({
           state.filteredItems[indexFiltered] = action.payload;
         }
       }
-    }
+    },
+
+    deleteVenta: (state, action: PayloadAction<number>) => {
+      // Filtramos la lista para dejar SOLO los que NO tengan ese ID
+      state.items = state.items.filter((item) => item.id !== action.payload);
+      state.filteredItems = state.filteredItems.filter((item) => item.id !== action.payload);
+    },
+
   },
 });
 
-export const { fetchDataStart, fetchDataSuccess, fetchDataFailure, filterData, addVenta, updateVenta } = dataSlice.actions;
+export const { fetchDataStart, fetchDataSuccess, fetchDataFailure, filterData, addVenta, updateVenta, deleteVenta } = dataSlice.actions;
 export default dataSlice.reducer;

@@ -22,6 +22,7 @@ import { useVentasLogic } from '../lib/redux/hooks/useVentasLogic';
 //IMPORTS PARA OPERACIONES CON API
 import NewSaleModal from './components/layout/NewSaleModal';
 import EditSaleModal from './components/layout/EditSaleModal';
+import DeleteButton from './components/layout/DeleteSaleButton';
 
 export default function DashboardPage() {
   
@@ -262,7 +263,10 @@ export default function DashboardPage() {
                             </span>
                         </td>
                         <td className="px-6 py-4">
-                            <EditSaleModal venta={venta} />
+                            <div className="flex gap-2">
+                                <EditSaleModal venta={venta} />
+                                <DeleteButton id={venta.id} />
+                            </div>
                         </td>
                     </tr>
                   ))
