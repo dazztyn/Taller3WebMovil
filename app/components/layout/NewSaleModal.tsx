@@ -11,11 +11,11 @@ export default function NewSaleModal()
 
     const [formData, setFormData] = useState({
         producto: '',
-        categoria: '',
+        categoria: 'Tecnología',
         monto: 0,
         cantidad: 1,
-        metodoPago: '',
-        sucursal: 'online'
+        metodoPago: 'Tarjeta',    
+        sucursal: 'Online'         
     });
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -84,17 +84,17 @@ export default function NewSaleModal()
                 <div>
                   <label className="block text-sm font-medium">Categoría</label>
                   <select name="categoria" value={formData.categoria} onChange={handleChange} className="w-full border p-2 rounded">
-                    <option>Tecnología</option>
-                    <option>Muebles</option>
-                    <option>Oficina</option>
+                    <option value="Tecnología">Tecnología</option>
+                    <option value="Muebles">Muebles</option>
+                    <option value="Oficina">Oficina</option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium">Sucursal</label>
                   <select name="sucursal" value={formData.sucursal} onChange={handleChange} className="w-full border p-2 rounded">
-                    <option>Online</option>
-                    <option>Santiago</option>
-                    <option>Coquimbo</option>
+                    <option value="Online">Online</option>
+                    <option value="Santiago">Santiago</option>
+                    <option value="Coquimbo">Coquimbo</option>
                   </select>
                 </div>
               </div>
@@ -108,6 +108,15 @@ export default function NewSaleModal()
                   <label className="block text-sm font-medium">Cantidad</label>
                   <input required type="number" name="cantidad" value={formData.cantidad} onChange={handleChange} className="w-full border p-2 rounded" />
                 </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium">Método de Pago</label>
+                <select name="metodoPago" value={formData.metodoPago} onChange={handleChange} className="w-full border p-2 rounded">
+                  <option value="Tarjeta">Tarjeta</option>
+                  <option value="Efectivo">Efectivo</option>
+                  <option value="Transferencia">Transferencia</option>
+                </select>
               </div>
 
               <div className="flex justify-end gap-2 mt-6">
