@@ -30,7 +30,7 @@ export async function POST(request: Request) {
                 monto: Number(data.monto),
                 cantidad: Number(data.cantidad),
                 metodoPago: data.metodoPago,
-                estado: "Pendiente",
+                estado: "Pendiente",        //por default
                 sucursal: data.sucursal,
                 //la fecha no va por configuracion de prisma
             },
