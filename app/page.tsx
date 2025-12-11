@@ -19,6 +19,11 @@ import { fetchDataSuccess } from '../lib/redux/slices/dataSlice';
 import { setSearchTerm, setCategory } from '../lib/redux/slices/filterSlice';
 import { useVentasLogic } from '../lib/redux/hooks/useVentasLogic';
 
+//IMPORTS PARA OPERACIONES CON API
+import NewSaleModal from './components/layout/NewSaleModal';
+import EditSaleModal from './components/layout/EditSaleModal';
+import DeleteButton from './components/layout/DeleteSaleButton';
+
 export default function DashboardPage() {
   
   const dispatch = useDispatch();
@@ -38,6 +43,19 @@ export default function DashboardPage() {
       { id: 5, producto: 'Monitor 24"', categoria: 'Tecnologia', monto: 150000, cantidad: 2, metodoPago: 'Tarjeta', estado: 'Devuelto', sucursal: 'La Serena', fecha: '2025-12-05' },
     ];
     dispatch(fetchDataSuccess(datosFalsos));
+  };
+
+  // NUEVA FUNCIÓN: Cargar datos reales desde la API
+  const cargarDatosReales = async () => {
+    try {
+      const response = await fetch('/api/ventas');
+      if (!response.ok) throw new Error('Error al cargar datos');
+      const ventasReales = await response.json();
+      dispatch(fetchDataSuccess(ventasReales));
+    } catch (error) {
+      console.error('Error cargando datos de la API:', error);
+      alert('Error al cargar datos de la base de datos');
+    }
   };
 
   // 4. CALCULAR KPI's EN TIEMPO REAL (Memoizado para rendimiento)
@@ -70,13 +88,25 @@ export default function DashboardPage() {
           <p className="text-slate-500">Resumen de rendimiento en tiempo real</p>
         </div>
         <div className="flex gap-2">
-            {/* BOTÓN DE PRUEBA INTEGRADO AQUÍ */}
+            {/* BOTÓN DE NUEVA VENTA */}
+            <NewSaleModal />
+            
+            {/* BOTÓN PARA CARGAR DATOS REALES DE LA API */}
+            <button 
+                onClick={cargarDatosReales}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm flex items-center gap-2"
+            >
+                <span></span> Cargar Datos Reales
+            </button>
+            
+            {/* BOTÓN DE PRUEBA */}
             <button 
                 onClick={cargarDatosDePrueba}
                 className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm flex items-center gap-2"
             >
                 <span></span> Simular API
             </button>
+            
             <button className={`${ucnAccentBtn} text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm`}>
                 Descargar Reporte
             </button>
@@ -202,12 +232,13 @@ export default function DashboardPage() {
                 <th className="px-6 py-3">Categoría</th>
                 <th className="px-6 py-3">Monto</th>
                 <th className="px-6 py-3">Estado</th>
+                <th className="px-6 py-3">Acciones</th>
               </tr>
             </thead>
             <tbody>
               {filteredItems.length === 0 ? (
                  <tr>
-                    <td colSpan={5} className="px-6 py-8 text-center text-slate-400 italic">
+                    <td colSpan={6} className="px-6 py-8 text-center text-slate-400 italic">
                         {filters.searchTerm || filters.categoria ? 'No se encontraron resultados con esos filtros.' : 'No hay datos cargados. Presiona "Simular API".'}
                     </td>
                  </tr>
@@ -230,6 +261,12 @@ export default function DashboardPage() {
                                   venta.estado === 'Pendiente' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}`}>
                                 {venta.estado}
                             </span>
+                        </td>
+                        <td className="px-6 py-4">
+                            <div className="flex gap-2">
+                                <EditSaleModal venta={venta} />
+                                <DeleteButton id={venta.id} />
+                            </div>
                         </td>
                     </tr>
                   ))

@@ -66,9 +66,38 @@ export const dataSlice = createSlice({
         
         return matchesSearch && matchesCategory && matchesSucursal && matchesPago;
       });
-    }
+    },
+    
+    addVenta: (state, action: PayloadAction<Venta>) => {
+      state.items.unshift(action.payload);
+      state.filteredItems.unshift(action.payload);
+    },
+
+    updateVenta: (state, action: PayloadAction<Venta>) => {
+      
+      const index = state.items.findIndex((item) => item.id === action.payload.id);
+      
+      if (index !== -1) 
+      {
+        state.items[index] = action.payload;
+        
+        const indexFiltered = state.filteredItems.findIndex((item) => item.id === action.payload.id);
+
+        if (indexFiltered !== -1) 
+        {
+          state.filteredItems[indexFiltered] = action.payload;
+        }
+      }
+    },
+
+    deleteVenta: (state, action: PayloadAction<number>) => {
+      // Filtramos la lista para dejar SOLO los que NO tengan ese ID
+      state.items = state.items.filter((item) => item.id !== action.payload);
+      state.filteredItems = state.filteredItems.filter((item) => item.id !== action.payload);
+    },
+
   },
 });
 
-export const { fetchDataStart, fetchDataSuccess, fetchDataFailure, filterData } = dataSlice.actions;
+export const { fetchDataStart, fetchDataSuccess, fetchDataFailure, filterData, addVenta, updateVenta, deleteVenta } = dataSlice.actions;
 export default dataSlice.reducer;

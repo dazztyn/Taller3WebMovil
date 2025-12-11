@@ -3,19 +3,21 @@ import prisma from '@/lib/prisma';
 
 //para recibir el id de la venta
 interface Params {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export async function PUT(request: Request, { params }: Params)
 {
     try
     {
-        const id = Number(params.id);
+        const { id } = await params;
+        const idNum = Number(id);
+
         const data = await request.json();
 
         //en la venta solo se podra modificar el estado del pedido y la sucursal
         const ventaActualizada = await prisma.venta.update({
-            where: { id: id },
+            where: { id: idNum },
             data: {
                 estado: data.estado,
                 sucursal: data.sucursal
@@ -35,11 +37,12 @@ export async function DELETE(request: Request, { params }: Params)
 {
     try 
     {
-    const id = Number(params.id);
+        const { id } = await params;
+        const idNum = Number(id); 
 
-    await prisma.venta.delete({
-      where: { id: id },
-    });
+        await prisma.venta.delete({
+        where: { id: idNum },
+        });
 
         return NextResponse.json({ message: 'Venta eliminada correctamente' });
     } 
