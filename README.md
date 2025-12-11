@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Taller 3 Intro a Web Movil - Dashboard de Ventas.
+### NextJS + Redux + Prisma + PostgreSQL
+### Grupo 3
+Integrantes:
 
-## Getting Started
+1. Javier Dinamarca Fredes. 21.416.181-8 `javier.dinamarca@alumnos.ucn.cl	`
+2. Pablo Jorquera Herrera. 21.545.563-7 `pablo.jorquera@alumnos.ucn.cl`
+3. Maximiliano Pastén Nayem. 20.169.262-8 `maximiliano.pasten@alumnos.ucn.cl`
+4. Vicente Ruiz Escobar. 21.464.046-5 `vicente.ruiz@alumnos.ucn.cl`
 
-First, run the development server:
+### Instalación de dependencias
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- `Prisma`: npm install prisma@5 --save-dev
+- `Redux`: npm install @reduxjs/toolkit react-redux
+- `Graficos`: npm install chart.js react-chartjs-2
+- `Generador de datos falsos`: npm install @faker-js/faker ts-node --save-dev
+
+El proyecto incluye un .env de ejemplo donde se debe modificar las credenciales de la base de datos que estará vacía por defecto.
+Para iniciar prisma ejecuta:
+```
+npx prisma migrate dev --name init
+```
+Para iniciar el proyecto en localhost:3000 ejecuta:
+```
+npm run build
+npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Endpoints
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Método HTTP | Endpoint | Descripción | Body / Params |
+| :--- | :--- | :--- | :--- |
+| **`GET`** | `/api/ventas` | Obtiene el listado completo de ventas almacenadas. | N/A |
+| **`POST`** | `/api/ventas` | Crea un nuevo registro de venta en la base de datos. | JSON con datos (producto, monto, etc). |
+| **`PUT`** | `/api/ventas/[id]` | Actualiza el estado o información de una venta existente. | **URL:** ID de la venta<br>**Body:** JSON con campos a editar. |
+| **`DELETE`** | `/api/ventas/[id]` | Elimina permanentemente un registro de venta. | **URL:** ID de la venta. |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
