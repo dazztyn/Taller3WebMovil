@@ -71,9 +71,26 @@ export const dataSlice = createSlice({
     addVenta: (state, action: PayloadAction<Venta>) => {
       state.items.unshift(action.payload);
       state.filteredItems.unshift(action.payload);
+    },
+
+    updateVenta: (state, action: PayloadAction<Venta>) => {
+      
+      const index = state.items.findIndex((item) => item.id === action.payload.id);
+      
+      if (index !== -1) 
+      {
+        state.items[index] = action.payload;
+        
+        const indexFiltered = state.filteredItems.findIndex((item) => item.id === action.payload.id);
+
+        if (indexFiltered !== -1) 
+        {
+          state.filteredItems[indexFiltered] = action.payload;
+        }
+      }
     }
   },
 });
 
-export const { fetchDataStart, fetchDataSuccess, fetchDataFailure, filterData, addVenta } = dataSlice.actions;
+export const { fetchDataStart, fetchDataSuccess, fetchDataFailure, filterData, addVenta, updateVenta } = dataSlice.actions;
 export default dataSlice.reducer;
